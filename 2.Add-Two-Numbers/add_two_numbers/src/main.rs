@@ -48,19 +48,14 @@ pub fn add_two_numbers(
     let mut ptr = &mut root;
 
     while d1.is_some() || d2.is_some() || carry != 0 {
-        let node = ListNode::new(
-            (d1.clone().unwrap_or(Box::new(ListNode::new(0))).val
-                + d2.clone().unwrap_or(Box::new(ListNode::new(0))).val
-                + carry)
-                % 10,
-        );
+        let val = d1.clone().unwrap_or(Box::new(ListNode::new(0))).val
+            + d2.clone().unwrap_or(Box::new(ListNode::new(0))).val
+            + carry;
+        let node = ListNode::new(val % 10);
         *ptr = Some(Box::new(node));
         ptr = &mut ptr.as_mut().unwrap().next;
 
-        carry = (d1.clone().unwrap_or(Box::new(ListNode::new(0))).val
-            + d2.clone().unwrap_or(Box::new(ListNode::new(0))).val
-            + carry)
-            / 10;
+        carry = val / 10;
 
         d1 = d1.and_then(|n| n.next);
         d2 = d2.and_then(|n| n.next);
